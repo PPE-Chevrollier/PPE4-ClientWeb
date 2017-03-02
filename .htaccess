@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteBase /html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(images|css|js)
+RewriteRule ^(.*)$ /index.php?url=$1 [L]
