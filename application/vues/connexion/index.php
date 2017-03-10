@@ -1,9 +1,9 @@
 <h1>Connexion</h1>
 <?php
-if ($this->session->recup('inscrit'))
-	echo '<p>Votre compte a bien été créé.<br />Veuillez maintenant vous connecter.</p>';
-$html->ouvrirFormulaire('champ', '#');
-$html->champ('nom_champ');
-$html->champ('mdp_champ');
+if ($this->session->recup('messageConnexion'))
+	echo '<p>' . $this->session->recup('messageConnexion') . '</p>';
+$html->ouvrirFormulaire('personnes', '#');
+$html->champ('email_personnes');
+$html->champ('mdp_etudiants');
 $html->boutonEnvoyer('Connexion');
 $html->fermerFormulaire();

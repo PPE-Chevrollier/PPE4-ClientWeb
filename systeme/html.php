@@ -23,11 +23,11 @@ namespace Systeme
 			if ($requis && !$this->champsRequis)
 				$this->champsRequis = true;
 			$type = $this->validateur->recupType($nom);
-			echo '<label for="' . $nom . '">' . $this->validateur->recupLabel($nom);
+			echo '<label for="' . $nom . '">' . $this->validateur->recupLibelle($nom);
 			if ($requis)
 				echo '*';
 			echo ' :</label>';
-			if ($type == 'texte' || $type == 'motdepasse' || $type == 'mail' || $type == 'nombre')
+			if ($type == 'texte' || $type == 'motdepasse' || $type == 'mail' || $type == 'nombre' || $type == 'telephone')
 			{
 				echo '<input type="';
 				if ($type == 'texte')
@@ -38,6 +38,8 @@ namespace Systeme
 					echo 'email';
 				else if ($type == 'nombre')
 					echo 'number';
+				else if ($type == 'telephone')
+					echo 'tel';
 				echo '" id="' . $nom . '" name="' . $nom . '" ';
 				if ($type != 'motdepasse')
 					echo 'value="' . $this->validateur->recupValeur($nom) . '" ';
@@ -65,7 +67,7 @@ namespace Systeme
 		
 		public function listeDeroulante($nom, $elements)
 		{
-			echo '<label for="' . $nom . '">' . $this->validateur->recupLabel($nom) . '</balel>';
+			echo '<label for="' . $nom . '">' . $this->validateur->recupLibelle($nom) . '</label>';
 			echo '<select id="' . $nom . '" name="' . $nom . '">';
 			foreach ($elements as $e)
 			{

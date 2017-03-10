@@ -1,5 +1,5 @@
 <?php
-namespace application
+namespace App
 {
 	class Config extends \systeme\Config
 	{
@@ -7,7 +7,7 @@ namespace application
 		{
 			parent::__construct();
 			$this->definir('hote', '192.168.152.2');
-			$this->definir('nomBDD', 'bd_ppe_test');
+			$this->definir('nomBDD', 'bd_ppe');
 			$this->definir('nomUtilisateur', 'ppe');
 			$this->definir('mdpBDD', 'Azerty123');
 		}

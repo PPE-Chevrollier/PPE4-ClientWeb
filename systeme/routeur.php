@@ -16,7 +16,7 @@ namespace Systeme
 		{
 			try
 			{
-				$this->bdd = new BDD($config);
+				$this->bdd = (new BDD($config))->recup();
 			}
 			catch (Exception $ex)
 			{

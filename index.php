@@ -7,4 +7,4 @@ require_once('systeme/routeur.php');
 $url = '';
 if (isset($_GET['url']))
 	$url = $_GET['url'];
-$routeur = new Routeur(new \application\Config(), $url);
+$routeur = new Routeur(new \App\Config(), $url);

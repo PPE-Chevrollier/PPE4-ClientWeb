@@ -22,13 +22,9 @@ namespace Systeme
 		protected function ajouterChamp($champ)
 		{
 			if (!isset($champ['type']))
-			{
-				$champ['type'] = $this->modele->recupType($champ['nom']);
-				if (!$champ['type'])
-					$champ['type'] = 'texte';
-			}
-			if (!isset($champ['label']))
-				$champ['label'] = ucfirst($champ['nom']);
+				$champ['type'] = 'texte';
+			if (!isset($champ['libelle']))
+				$champ['libelle'] = ucfirst($champ['nom']);
 			if (!isset($champ['requis']))
 				$champ['requis'] = true;
 			$this->champs[$champ['nom']] = $champ;
@@ -46,9 +42,7 @@ namespace Systeme
 		
 		public function estRequis($nom)
 		{
-			if (!isset($this->champs[$nom]['requis']))
-				return true;
-			return $this->champs[$nom]['requis'];
+			return !isset($this->champs[$nom]['requis']) || $this->champs[$nom]['requis'];
 		}
 		
 		protected function estValide()
@@ -61,13 +55,18 @@ namespace Systeme
 			$erreur = false;
 			foreach ($this->champs as $nom => $valeur)
 			{
-				if ($valeur['requis'] && empty($_POST[$nom]))
+				if ($this->estRequis($nom) && empty($_POST[$nom]))
 				{
-					$this->champs[$nom]['erreur'] = 'Le champ « ' . $this->recupLabel($nom) . ' » est requis.';
+					$this->champs[$nom]['erreur'] = 'Le champ « ' . $this->recupLibelle($nom) . ' » est requis.';
 					$erreur = true;
 				}
 				else
-					$this->definirValeur($nom, $_POST[$nom]);
+				{
+					if ($this->recupType($nom) == 'motdepasse')
+						$this->definirValeur($nom, sha1($_POST[$nom]));
+					else
+						$this->definirValeur($nom, $_POST[$nom]);
+				}
 			}
 			return !$erreur;
 		}
@@ -79,11 +78,11 @@ namespace Systeme
 			return $this->champs[$nom]['erreur'];
 		}
 		
-		public function recupLabel($nom)
+		public function recupLibelle($nom)
 		{
-			if (!isset($this->champs[$nom]['label']))
+			if (!isset($this->champs[$nom]['libelle']))
 				return ucfirst($nom);
-			return $this->champs[$nom]['label'];
+			return $this->champs[$nom]['libelle'];
 		}
 		
 		public function recupType($nom)

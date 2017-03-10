@@ -11,13 +11,13 @@ namespace App\Controleurs
 		
 		public function index()
 		{
-			$this->chargerModele('champ');
-			$this->chargerValidateur('champ');
-			if ($this->validateurChamp->connecter())
+			$this->chargerModele('personnes');
+			$this->chargerValidateur('personnes');
+			if ($this->validateurPersonnes->connecter())
 			{
-				$this->session->supprimer('inscrit');
-				$this->session->definir('id_champ', $this->validateurChamp->recupValeur('id_champ'));
-				$this->session->definir('nom_champ', $this->validateurChamp->recupValeur('nom_champ'));
+				$this->session->supprimer('messageConnexion');
+				$this->session->definir('id_personnes', $this->validateurPersonnes->recupValeur('id_personnes'));
+				$this->session->definir('prenom_personnes', $this->validateurPersonnes->recupValeur('prenom_personnes'));
 				$url = $this->session->recup('url_temp');
 				$this->session->supprimer('url_temp');
 				$nomControleur = '';

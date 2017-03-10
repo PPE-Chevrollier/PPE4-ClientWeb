@@ -27,9 +27,29 @@ namespace Systeme
 				require_once('systeme/modele.php');
 				require_once($cheminModele);
 				$nomModele = str_replace('-', '', ucwords($nomModele, '-'));
+				if (isset($this->$nomModele))
+					return $this->$nomModele;
 				$namespaceModele = '\App\Modeles\\'. $nomModele;
 				$nomModele = lcfirst($nomModele);
 				$this->$nomModele = new $namespaceModele($this->routeur->recupBDD());
+				return $this->$nomModele;
+			}
+		}
+
+		protected function chargerService($nomService)
+		{
+			$cheminService = 'application/services/' . $nomService . '.php';
+			if (file_exists($cheminService))
+			{
+				require_once('systeme/service.php');
+				require_once($cheminService);
+				$nomService = str_replace('-', '', ucwords($nomService, '-'));
+				$namespaceService = '\App\Services\\'. $nomService;
+				$nomService = 'service' . $nomService;
+				$this->$nomService = new $namespaceService($this->routeur, $this->session);
+				foreach ($this->$nomService->recupModeles() as $m)
+					$this->$nomService->definirModele($m, $this->chargerModele($m));
+				$this->$nomService->traiter();
 			}
 		}
 	
@@ -85,15 +105,6 @@ namespace Systeme
 		protected function rediriger($nomControleur = '', $nomAction = '', $params = [])
 		{
 			$this->routeur->rediriger($nomControleur, $nomAction, $params);
-		}
-		
-		protected function verifierConnexion()
-		{
-			if (!$this->session->recup('nom_champ'))
-			{
-				$this->session->definir('url_temp', [$this->routeur->recupNomControleur(), $this->routeur->recupNomAction(), $this->routeur->recupParams()]);
-				$this->rediriger('connexion');
-			}
 		}
 	}
 }
