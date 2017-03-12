@@ -1,3 +1,4 @@
+<?php if ($session->recup('message')) echo '<p id="message">' . $session->recup('message') . '</p>'; ?>
 <h1>Profil de <?php echo $nomUtilisateur; ?></h1>
 <p>Nom d'utilisateur : <?php echo $nomUtilisateur; ?><br />
 Nom : <?php echo $nom; ?><br />

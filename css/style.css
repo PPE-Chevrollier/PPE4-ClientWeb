@@ -1,0 +1,73 @@
+* {
+	font-family: arial;
+	margin: 0;
+	padding: 0;
+}
+main {
+	margin: 30px 30%;
+}
+nav ul {
+	list-style: none;
+	text-align: center;
+}
+nav ul li {
+	display: inline-block;
+	padding: 20px;
+}
+nav ul li a {
+	font-weight: bold;
+	text-decoration: none;
+}
+#utilisateur {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+#utilisateur a {
+	display: inline-block;
+	margin: 20px;
+	text-decoration: none;
+}
+footer {
+	margin: 50px 0;
+	text-align: center;
+}
+#message {
+	background-color: orange;
+	font-weight: bold;
+	padding: 15px;
+	text-align: center;
+}
+#nouveauLogement {
+	background-color: rgb(100, 100, 255);
+	color: white;
+	display: table;
+	margin-left: auto;
+	margin-right: 0;
+	padding: 5px 15px;
+	text-decoration: none;
+}
+label {
+	display: block;
+	margin-top: 10px;
+}
+input {
+	display: block;
+	margin-bottom: 10px;
+	padding: 5px;
+	width: 50%;
+}
+input[type=submit] {
+	background-color: rgb(20, 20, 255);
+	color: white;
+	display: table;
+	margin-left: 10px;
+	padding: 5px 15px;
+	width: auto;
+}
+.erreur {
+	color: red;
+	font-style: italic;
+	font-weight: bold;
+	margin-left: 10px;
+}

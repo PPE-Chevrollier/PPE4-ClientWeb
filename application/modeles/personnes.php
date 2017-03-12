@@ -8,10 +8,16 @@ namespace App\Modeles
 			parent::__construct($bdd);
 		}
 		
+		public function changerMotDePasse($id, $mdp)
+		{
+			$req = $this->BDD->prepare("UPDATE personnes SET mdp_etudiants = ? WHERE id_personnes = ?");
+			$req->execute([$mdp, $id]);
+		}
+		
 		public function modifierPersonne($id, $nom, $prenom, $mail, $tel, $sexe)
 		{
-			$req = $this->BDD->prepare('UPDATE personnes SET nom_personnes = ?, prenom_personnes = ?, email_personnes = ?, tel_personnes = ? WHERE id_personnes = ?');
-			$req->execute([$nom, $prenom, $mail, $sexe, $tel, $id]);
+			$req = $this->BDD->prepare('UPDATE personnes SET nom_personnes = ?, prenom_personnes = ?, email_personnes = ?, tel_personnes = ?, sexe_personnes = ? WHERE id_personnes = ?');
+			$req->execute([$nom, $prenom, $mail, $tel, $sexe, $id]);
 		}
 		
 		public function recupParNomUtilisateur($nomUtilisateur)
@@ -42,26 +48,11 @@ namespace App\Modeles
 		}
                     
     public function apiCconnexion($user, $mdp){		
-    					
-		  $tabResult = array();
-    
-		  $req = $this->BDD->prepare('SELECT login(:user, :mdp) AS \'result\'');
-		  $req->bindParam(':user', $user, \PDO::PARAM_STR);
-		  $req->bindParam(':mdp', $mdp, \PDO::PARAM_STR);
-		  $req->execute();
-    
-      $tabResult["result"] = $req->fetchObject()->result;
-    
-		  if ($tabResult["result"] == "1"){
-		      $personne = $this->recupParNomUtilisateur($user);
-		      
-		      $tabResult["name"] = $personne->nom_personnes;
-		      $tabResult["prenom"] = $personne->prenom_personnes;
-		  }
-		  
-		  $req->closeCursor();
-		  
-		  return json_encode($tabResult);
+		  $req = $this->BDD->prepare('SELECT login(?, ?) AS \'result\'');
+      $req->execute([$user, $mdp]);
+		  $result = $req->fetchObject();
+      $req->closeCursor();
+      return $result->result;
     }
     
     public function apiRecupUtilisateurs(){

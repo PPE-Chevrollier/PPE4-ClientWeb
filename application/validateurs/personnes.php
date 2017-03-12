@@ -28,15 +28,32 @@ namespace App\Validateurs
 			}
 		}
 		
-		public function modifier()
+		public function modifier($id)
 		{
 			$this->ajouterChamp(['nom' => 'nom_personnes', 'type' => 'texte', 'libelle' => 'Nom']);
 			$this->ajouterChamp(['nom' => 'prenom_personnes', 'type' => 'texte', 'libelle' => 'Prénom']);
 			$this->ajouterChamp(['nom' => 'tel_personnes', 'requis' => false, 'type' => 'telephone', 'libelle' => 'N° de téléphone']);
-			$this->ajouterChamp(['nom' => 'ancien_mdp', 'requis' => false, 'type' => 'motdepasse', 'libelle' => 'Ancien mot de passe']);
-			$this->ajouterChamp(['nom' => 'mdp_etudiants', 'requis' => false, 'type' => 'motdepasse', 'libelle' => 'Mot de passe']);
+			$this->ajouterChamp(['nom' => 'sexe_personnes', 'type' => 'texte', 'libelle' => 'Sexe']);
+			$this->ajouterChamp(['nom' => 'mdp_actuel', 'requis' => false, 'type' => 'motdepasse', 'libelle' => 'Mot de passe actuel']);
+			$this->ajouterChamp(['nom' => 'mdp_etudiants', 'requis' => false, 'type' => 'motdepasse', 'libelle' => 'Nouveau mot de passe']);
 			$this->ajouterChamp(['nom' => 'confirmation_mdp', 'requis' => false, 'type' => 'motdepasse', 'libelle' => 'Confirmer le mot de passe']);
-			return $this->estValide();
+			if ($this->estValide())
+			{
+				if (!empty($this->recupValeur('mdp_etudiants')))
+				{
+					echo '-------> ' . $this->recupValeur('mdp_etudiants');
+					$personne = $this->modele->recupParID($id);
+					if ($this->recupValeur('mdp_actuel') != $personne->mdp_etudiants)
+						$this->definirErreur('mdp_actuel', 'Veuillez insérer votre mot de passe actuel.');
+					else if ($this->recupValeur('mdp_etudiants') != $this->recupValeur('confirmation_mdp'))
+						$this->definirErreur('confirmation_mdp', 'La confirmation du mot de passe est incorrecte.');
+					else
+						return true;
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 	}
 }

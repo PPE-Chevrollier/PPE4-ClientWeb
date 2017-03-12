@@ -62,7 +62,7 @@ namespace Systeme
 				}
 				else
 				{
-					if ($this->recupType($nom) == 'motdepasse')
+					if ($this->recupType($nom) == 'motdepasse' && !empty($_POST[$nom]))
 						$this->definirValeur($nom, sha1($_POST[$nom]));
 					else
 						$this->definirValeur($nom, $_POST[$nom]);

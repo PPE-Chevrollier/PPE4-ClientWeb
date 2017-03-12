@@ -43,9 +43,10 @@ namespace Systeme
 				echo '" id="' . $nom . '" name="' . $nom . '" ';
 				if ($type != 'motdepasse')
 					echo 'value="' . $this->validateur->recupValeur($nom) . '" ';
+				if ($requis)
+					echo 'required ';
 				echo '/>';
 			}
-			echo '<br />';
 			$erreur = $this->validateur->recupErreur($nom);
 			if (!empty($erreur))
 				echo '<div class="erreur">' . $erreur . '</div>';
@@ -67,14 +68,17 @@ namespace Systeme
 		
 		public function listeDeroulante($nom, $elements)
 		{
-			echo '<label for="' . $nom . '">' . $this->validateur->recupLibelle($nom) . '</label>';
+			echo '<label for="' . $nom . '">' . $this->validateur->recupLibelle($nom);
+			if ($this->validateur->estRequis($nom))
+				echo '*';
+			echo ' :</label>';
 			echo '<select id="' . $nom . '" name="' . $nom . '">';
-			foreach ($elements as $e)
+			foreach ($elements as $valeur => $texte)
 			{
-				echo '<option value="' . $e[0] . '"';
-				if ($this->validateur->recupValeur($nom) == $e[0])
+				echo '<option value="' . $valeur . '"';
+				if ($this->validateur->recupValeur($nom) == $valeur)
 					echo ' selected';
-				echo '>' . $e[1] . '</option>';
+				echo '>' . $texte . '</option>';
 			}
 			echo '</select>';
 		}

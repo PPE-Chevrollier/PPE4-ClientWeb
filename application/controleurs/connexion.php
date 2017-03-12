@@ -15,7 +15,6 @@ namespace App\Controleurs
 			$this->chargerValidateur('personnes');
 			if ($this->validateurPersonnes->connecter())
 			{
-				$this->session->supprimer('messageConnexion');
 				$this->session->definir('id_personnes', $this->validateurPersonnes->recupValeur('id_personnes'));
 				$this->session->definir('prenom_personnes', $this->validateurPersonnes->recupValeur('prenom_personnes'));
 				$url = $this->session->recup('url_temp');
@@ -32,7 +31,10 @@ namespace App\Controleurs
 				$this->rediriger($nomControleur, $nomAction, $params);
 			}
 			else
+			{
 				$this->chargerVue('', ['titre' => 'Connexion']);
+				$this->session->supprimer('messageConnexion');
+			}
 		}
 	}
 }
