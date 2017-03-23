@@ -1,35 +1,25 @@
 <?php
 namespace App\Services
 {
-	class Connexion extends \Systeme\Service
+	require_once('connexion-simple.php');
+	class Connexion extends ConnexionSimple
 	{
-		private $personne;
-		
 		public function __construct($routeur, $session)
 		{
 			parent::__construct($routeur, $session);
-			$this->modeles = ['personnes'];
-		}
-
-		public function recupPersonne()
-		{
-			return $this->personne;
 		}
 		
 		public function traiter()
 		{
-			if ($this->session->recup('id_personnes'))
+			parent::traiter();
+			if ($this->recupPersonne() == null)
 			{
-				$this->personne = $this->personnes->recupParID($this->session->recup('id_personnes'));
-				if ($this->personne != null)
-				{
-					$this->session->supprimer('messageConnexion');
-					return;
-				}
+				$this->session->definir('messageConnexion', 'Veuillez vous connecter pour accéder à cette page.');
+				$this->session->definir('url_temp', [$this->routeur->recupNomControleur(), $this->routeur->recupNomAction(), $this->routeur->recupParams()]);
+				$this->routeur->rediriger('connexion');
 			}
-			$this->session->definir('messageConnexion', 'Veuillez vous connecter pour accéder à cette page.');
-			$this->session->definir('url_temp', [$this->routeur->recupNomControleur(), $this->routeur->recupNomAction(), $this->routeur->recupParams()]);
-			$this->routeur->rediriger('connexion');
+			else
+				$this->session->supprimer('messageConnexion');
 		}
 	}
 }

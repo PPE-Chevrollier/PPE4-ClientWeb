@@ -6,7 +6,7 @@ namespace App\Validateurs
 		public function __construct($controleur, $modele)
 		{
 			parent::__construct($controleur, $modele);
-			$this->ajouterChamp(['nom' => 'email_personnes', 'type' => 'mail', 'libelle' => 'E-mail']);
+			$this->ajouterChamp(['nom' => 'email_etudiants', 'type' => 'mail', 'libelle' => 'E-mail']);
 		}
 		
 		public function connecter()
@@ -14,15 +14,16 @@ namespace App\Validateurs
 			$this->ajouterChamp(['nom' => 'mdp_etudiants', 'type' => 'motdepasse', 'libelle' => 'Mot de passe']);
 			if ($this->estValide())
 			{
-				$personne = $this->modele->recupPersonneParMail($this->recupValeur('email_personnes'));
+				$personne = $this->modele->recupParMail($this->recupValeur('email_etudiants'));
 				if (!$personne)
-					$this->definirErreur('email_personnes', 'Cet email n\'existe pas.');
+					$this->definirErreur('email_etudiants', 'Cet email n\'existe pas.');
 				else if ($personne->mdp_etudiants != $this->recupValeur('mdp_etudiants'))
 					$this->definirErreur('mdp_etudiants', 'Le mot de passe est incorrect.');
 				else
 				{
-					$this->definirValeur('id_personnes', $personne->id_personnes);
-					$this->definirValeur('prenom_personnes', $personne->prenom_personnes);
+					$this->definirValeur('id_etudiants', $personne->id_etudiants);
+					$this->definirValeur('prenom_etudiants', $personne->prenom_etudiants);
+          $this->definirValeur('login_etudiants', $personne->login_etudiants);
 					return true;
 				}
 			}
@@ -30,10 +31,10 @@ namespace App\Validateurs
 		
 		public function modifier($id)
 		{
-			$this->ajouterChamp(['nom' => 'nom_personnes', 'type' => 'texte', 'libelle' => 'Nom']);
-			$this->ajouterChamp(['nom' => 'prenom_personnes', 'type' => 'texte', 'libelle' => 'Prénom']);
-			$this->ajouterChamp(['nom' => 'tel_personnes', 'requis' => false, 'type' => 'telephone', 'libelle' => 'N° de téléphone']);
-			$this->ajouterChamp(['nom' => 'sexe_personnes', 'type' => 'texte', 'libelle' => 'Sexe']);
+			$this->ajouterChamp(['nom' => 'nom_etudiants', 'type' => 'texte', 'libelle' => 'Nom']);
+			$this->ajouterChamp(['nom' => 'prenom_etudiants', 'type' => 'texte', 'libelle' => 'Prénom']);
+			$this->ajouterChamp(['nom' => 'tel_etudiants', 'requis' => false, 'type' => 'telephone', 'libelle' => 'N° de téléphone']);
+			$this->ajouterChamp(['nom' => 'sexe_etudiants', 'type' => 'texte', 'libelle' => 'Sexe']);
 			$this->ajouterChamp(['nom' => 'mdp_actuel', 'requis' => false, 'type' => 'motdepasse', 'libelle' => 'Mot de passe actuel']);
 			$this->ajouterChamp(['nom' => 'mdp_etudiants', 'requis' => false, 'type' => 'motdepasse', 'libelle' => 'Nouveau mot de passe']);
 			$this->ajouterChamp(['nom' => 'confirmation_mdp', 'requis' => false, 'type' => 'motdepasse', 'libelle' => 'Confirmer le mot de passe']);

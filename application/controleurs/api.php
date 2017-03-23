@@ -3,7 +3,7 @@ namespace App\Controleurs
 {
     class api extends \Systeme\Controleur
     {
-        public function getUsers(){
+        public function recupUtilisateurs(){
             $this->chargerModele('personnes');
             echo $this->personnes->apiRecupUtilisateurs();
         }
@@ -16,26 +16,29 @@ namespace App\Controleurs
             $tabResult["etat"] = $etat;     
             if ($etat == "1"){
       		      $personne = $this->personnes->recupParNomUtilisateur($tab[0]);
-      		      $tabResult["nom"] = $personne->nom_personnes;
-      		      $tabResult["prenom"] = $personne->prenom_personnes;
+      		      $tabResult["nom"] = $personne->nom_etudiants;
+      		      $tabResult["prenom"] = $personne->prenom_etudiants;
       		  }
       		  echo json_encode($tabResult);
         }
         
-        public function resetMdp($tab){        
-            if (!isset($tab[0])) return;        
+        public function changerMotDePasse($tab){        
+            if (!isset($tab[0])) return;
+            $result = array();
             $this->chargerModele('personnes');
             $characters = '023456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ#!$';
             $specials = '#!?$%&*';         
             $firstPart = substr(str_shuffle($characters), 0, 7);
             $lastPart = substr(str_shuffle($specials), 0, 1);            
             $mdp = str_shuffle($firstPart . $lastPart);            
-            $this->personnes->apiResetPassword($tab[0], sha1($mdp));
+            $etat = $this->personnes->apiResetPassword($tab[0], sha1($mdp));
             $user = $this->personnes->recupParNomUtilisateur($tab[0]);
-            $subject = 'Mot de passe réinitialisé';
+            $subject = 'Mot de passe rï¿½initialisï¿½';
             $message = 'Voici votre nouveau mot de passe ChevLoc : '.$mdp;
-            $headers = 'From: noreply@chevrollier.fr';        
-            mail($user->email_personnes, $subject, $message, $headers);          
+            $headers = 'From: ChevLoc@chevrollier.fr';
+            $etat *= mail($user->email_etudiants, $subject, $message, $headers);
+            $result["etat"] = $etat;
+            echo json_encode($result);
         }
     }
 }

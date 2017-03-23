@@ -25,7 +25,7 @@ namespace Systeme
 		
 		public function traiter()
 		{
-			if (!$this->session->recup('ID_PERSONNES'))
+			if (!$this->session->recup('id_etudiants'))
 			{
 				$this->session->definir('url_temp', [$this->routeur->recupNomControleur(), $this->routeur->recupNomAction(), $this->routeur->recupParams()]);
 				$this->routeur->rediriger('connexion');

@@ -1,0 +1,32 @@
+<h1>Modifier le logement</h1>
+<?php
+$html->ouvrirFormulaire('logements', '#');
+echo '<fieldset><legend>Informations sur le propriétaire</legend>';
+$html->champ('nom_proprietaire');
+$html->champ('prenom_proprietaire');
+$html->listeDeroulante('sexe_proprietaire', ['M' => 'Homme', 'F' => 'Femme']);
+echo '</fieldset>';
+echo '<fieldset><legend>Adresse du logement</legend>';
+$html->champ('rue_logements');
+$html->champ('complement_adresse_logements');
+$html->champ('ville_logements');
+$html->champ('cp_logements');
+echo '</fieldset>';
+echo '<fieldset><legend>Description du logement</legend>';
+$html->champ('photo');
+$html->champ('description_photos');
+$html->champ('surface_logements');
+$html->champ('prix_logements');
+$html->boutonsRadio('type_logements', ['0' => 'Appartement', '1' => 'Chambre chez l\'habitant', '2' => 'Studio']);
+echo '<div id="appartement">';
+$html->champ('nb_places_appartements');
+$html->champ('nb_chambres_appartements');
+echo '</div><div id="chambre">';
+$html->caseACocher('parties_communes_chambres');
+echo '</div><div id="studio">';
+$html->caseACocher('meuble_studios');
+echo '</div>';
+$html->champ('libelle_motifs');
+echo '</fieldset>';
+$html->boutonEnvoyer('Proposer ce logement');
+$html->fermerFormulaire();

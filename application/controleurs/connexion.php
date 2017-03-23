@@ -15,8 +15,9 @@ namespace App\Controleurs
 			$this->chargerValidateur('personnes');
 			if ($this->validateurPersonnes->connecter())
 			{
-				$this->session->definir('id_personnes', $this->validateurPersonnes->recupValeur('id_personnes'));
-				$this->session->definir('prenom_personnes', $this->validateurPersonnes->recupValeur('prenom_personnes'));
+				$this->session->definir('id_etudiants', $this->validateurPersonnes->recupValeur('id_etudiants'));
+				$this->session->definir('prenom_etudiants', $this->validateurPersonnes->recupValeur('prenom_etudiants'));
+                                $this->session->definir('login_etudiants', $this->validateurPersonnes->recupValeur('login_etudiants'));
 				$url = $this->session->recup('url_temp');
 				$this->session->supprimer('url_temp');
 				$nomControleur = '';

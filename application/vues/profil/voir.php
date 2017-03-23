@@ -5,4 +5,8 @@ Nom : <?php echo $nom; ?><br />
 Prénom : <?php echo $prenom; ?><br />
 Adresse E-mail : <?php echo $mail; ?><br />
 N° de téléphone : <?php if (!empty($tel)) echo $tel; else echo 'N/A'; ?><br />
-Sexe : <?php if ($sexe == 'M') echo 'Homme'; else echo 'Femme'; ?></p>
+Sexe : <?php if ($sexe == 'M') echo 'Homme'; else echo 'Femme'; ?><br />
+Date de naissance : <?php echo $datenaiss; ?></p>
+<?php
+if ($session->recup('login_etudiants') == $nomUtilisateur)
+	echo '<a id="modifierProfil" href="/profil/modifier">Modifier le profil</a>';

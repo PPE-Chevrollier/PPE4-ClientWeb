@@ -9,21 +9,21 @@ namespace App\Controleurs
 			$this->chargerModele('personnes');
 			$personne = $this->serviceConnexion->recupPersonne();
 			$this->chargerValidateur('personnes');
-			if ($this->validateurPersonnes->modifier($personne->id_personnes))
+			if ($this->validateurPersonnes->modifier($personne->id_etudiants))
 			{
-				$this->personnes->modifierPersonne($this->session->recup('id_personnes'), $this->validateurPersonnes->recupValeur('nom_personnes'), $this->validateurPersonnes->recupValeur('prenom_personnes'), $this->validateurPersonnes->recupValeur('email_personnes'), $this->validateurPersonnes->recupValeur('tel_personnes'), $this->validateurPersonnes->recupValeur('sexe_personnes'));
+				$this->personnes->modifierPersonne($this->session->recup('id_etudiants'), $this->validateurPersonnes->recupValeur('nom_etudiants'), $this->validateurPersonnes->recupValeur('prenom_etudiants'), $this->validateurPersonnes->recupValeur('email_etudiants'), $this->validateurPersonnes->recupValeur('tel_etudiants'), $this->validateurPersonnes->recupValeur('sexe_etudiants'));
 				if (!empty($this->validateurPersonnes->recupValeur('mdp_etudiants')))
-					$this->personnes->changerMotDePasse($personne->id_personnes, $this->validateurPersonnes->recupValeur('mdp_etudiants'));
+					$this->personnes->changerMotDePasse($personne->id_etudiants, $this->validateurPersonnes->recupValeur('mdp_etudiants'));
 				$this->session->definir('message', 'Votre profil a bien été modifié !');
 				$this->rediriger('profil', 'voir', [$personne->login_etudiants]);
 			}
 			else
 			{
-				$this->validateurPersonnes->definirValeur('nom_personnes', $personne->nom_personnes);
-				$this->validateurPersonnes->definirValeur('prenom_personnes', $personne->prenom_personnes);
-				$this->validateurPersonnes->definirValeur('email_personnes', $personne->email_personnes);
-				$this->validateurPersonnes->definirValeur('tel_personnes', $personne->tel_personnes);
-				$this->validateurPersonnes->definirValeur('sexe_personnes', $personne->sexe_personnes);
+				$this->validateurPersonnes->definirValeur('nom_etudiants', $personne->nom_etudiants);
+				$this->validateurPersonnes->definirValeur('prenom_etudiants', $personne->prenom_etudiants);
+				$this->validateurPersonnes->definirValeur('email_etudiants', $personne->email_etudiants);
+				$this->validateurPersonnes->definirValeur('tel_etudiants', $personne->tel_etudiants);
+				$this->validateurPersonnes->definirValeur('sexe_etudiants', $personne->sexe_etudiants);
 				$this->chargerVue('modifier', ['titre' => 'Modification du profil']);
 			}
 		}
@@ -35,7 +35,7 @@ namespace App\Controleurs
 			$personne = $this->personnes->recupParNomUtilisateur($params[0]);
 			if ($personne)
 			{
-				$this->chargerVue('', ['mail' => $personne->email_personnes, 'nom' => $personne->nom_personnes, 'nomUtilisateur' => $personne->login_etudiants, 'prenom' => $personne->prenom_personnes, 'sexe' => $personne->sexe_personnes, 'tel' => $personne->tel_personnes, 'titre' => 'Profil de ' . $personne->login_etudiants]);
+				$this->chargerVue('', ['mail' => $personne->email_etudiants, 'nom' => $personne->nom_etudiants, 'nomUtilisateur' => $personne->login_etudiants, 'prenom' => $personne->prenom_etudiants, 'sexe' => $personne->sexe_etudiants, 'tel' => $personne->tel_etudiants, 'datenaiss' => $personne->datenaiss_etudiants, 'titre' => 'Profil de ' . $personne->login_etudiants]);
 				$this->session->supprimer('message');
 			}
 			else

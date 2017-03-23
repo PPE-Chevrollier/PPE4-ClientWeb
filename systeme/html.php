@@ -17,6 +17,26 @@ namespace Systeme
 			echo '<input type="submit" value="' . $nom . '" /><br />';
 		}
 		
+		public function boutonsRadio($nom, $elements)
+		{
+			echo '<p>' . $this->validateur->recupLibelle($nom);
+			if ($this->validateur->estRequis($nom))
+				echo '*';
+			echo ' :</p>';
+			foreach ($elements as $cle => $valeur)
+			{
+				echo '<input type="radio" id="' . $nom . '_' . $cle . '" name="' . $nom . '" value="' . $cle . '"';
+				if ($this->validateur->recupValeur($nom) == $cle)
+					echo ' checked';
+				echo ' /><label class="libelleAligne" for="' . $nom . '_' . $cle . '">' . $valeur . '</label>';
+			}
+		}
+		
+		public function caseACocher($nom)
+		{
+			echo '<input type="checkbox" id="' . $nom . '" name="' . $nom . '" /><label class="libelleAligne" for="' . $nom . '">' . $this->validateur->recupLibelle($nom) . '</label>';
+		}
+		
 		public function champ($nom)
 		{
 			$requis = $this->validateur->estRequis($nom);
@@ -27,7 +47,7 @@ namespace Systeme
 			if ($requis)
 				echo '*';
 			echo ' :</label>';
-			if ($type == 'texte' || $type == 'motdepasse' || $type == 'mail' || $type == 'nombre' || $type == 'telephone')
+			if ($type == 'texte' || $type == 'motdepasse' || $type == 'mail' || $type == 'nombre' || $type == 'telephone' || $type == 'fichier')
 			{
 				echo '<input type="';
 				if ($type == 'texte')
@@ -40,8 +60,10 @@ namespace Systeme
 					echo 'number';
 				else if ($type == 'telephone')
 					echo 'tel';
+				else if ($type == 'fichier')
+					echo 'file';
 				echo '" id="' . $nom . '" name="' . $nom . '" ';
-				if ($type != 'motdepasse')
+				if ($type != 'motdepasse' && $type != 'fichier')
 					echo 'value="' . $this->validateur->recupValeur($nom) . '" ';
 				if ($requis)
 					echo 'required ';
@@ -87,7 +109,10 @@ namespace Systeme
 		{
 			$nom = 'validateur' . ucfirst($nom);
 			$this->validateur = $this->controleur->$nom;
-			echo '<form action="' . $action . '" method="' . $methode . '">';
+			echo '<form action="' . $action . '" method="' . $methode . '"';
+			if ($this->validateur->contientFichier())
+				echo ' enctype="multipart/form-data"';
+			echo '>';
 		}
 	}
 }

@@ -47,6 +47,14 @@ footer {
 	padding: 5px 15px;
 	text-decoration: none;
 }
+#modifierProfil {
+	background-color: rgb(100, 100, 255);
+	color: white;
+	display: table;
+  margin-top: 10px;
+	padding: 5px 15px;
+	text-decoration: none;
+}
 label {
 	display: block;
 	margin-top: 10px;
@@ -56,6 +64,11 @@ input {
 	margin-bottom: 10px;
 	padding: 5px;
 	width: 50%;
+}
+input[type=radio], input[type=checkbox] {
+	display: inline-block;
+	margin: 0 5px 0 5px;
+	width: auto;
 }
 input[type=submit] {
 	background-color: rgb(20, 20, 255);
@@ -70,4 +83,7 @@ input[type=submit] {
 	font-style: italic;
 	font-weight: bold;
 	margin-left: 10px;
+}
+.libelleAligne {
+	display: inline-block;
 }
