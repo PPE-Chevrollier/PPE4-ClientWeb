@@ -1,7 +1,8 @@
 <h1>Modifier le logement</h1>
 <?php
+echo '<a class="buttonDroit" href="/logements/equipements/' . $idLogement . '">Gérer les équipements</a><a class="buttonDroit" href="/logements/photos/' . $idLogement . '">Gérer les photos</a>';
 $html->ouvrirFormulaire('logements', '#');
-echo '<fieldset><legend>Informations sur le propri�taire</legend>';
+echo '<fieldset><legend>Informations sur le propriétaire</legend>';
 $html->champ('nom_proprietaire');
 $html->champ('prenom_proprietaire');
 $html->listeDeroulante('sexe_proprietaire', ['M' => 'Homme', 'F' => 'Femme']);
@@ -17,7 +18,7 @@ $html->champ('photo');
 $html->champ('description_photos');
 $html->champ('surface_logements');
 $html->champ('prix_logements');
-$html->boutonsRadio('type_logements', ['0' => 'Appartement', '1' => 'Chambre chez l\'habitant', '2' => 'Studio']);
+$html->boutonsRadio('type_logements', ['1' => 'Appartement', '2' => 'Chambre chez l\'habitant', '3' => 'Studio']);
 echo '<div id="appartement">';
 $html->champ('nb_places_appartements');
 $html->champ('nb_chambres_appartements');
@@ -28,5 +29,5 @@ $html->caseACocher('meuble_studios');
 echo '</div>';
 $html->champ('libelle_motifs');
 echo '</fieldset>';
-$html->boutonEnvoyer('Proposer ce logement');
+$html->boutonEnvoyer('Mettre à jour le logement');
 $html->fermerFormulaire();

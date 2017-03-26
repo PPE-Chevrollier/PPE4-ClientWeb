@@ -72,49 +72,51 @@ namespace Systeme
 			$erreur = false;
 			foreach ($this->champs as $nom => $valeur)
 			{                         
-                                if ($this->estRequis($nom)){
-                                    
-                                    if ($this->recupType($nom) == 'fichier' && empty($_FILES[$nom])){
-                                        $this->definirErreur($nom, 'Le champ « ' . $this->recupLibelle($nom) . ' » est requis.');
-					$erreur = true;
-                                        continue;
-                                    }
-                                    else if ($this->recupType($nom) == 'booleen' && $_POST[$nom] != 'on'){
-                                        $this->definirErreur($nom, 'Veuillez cocher la case.');
-                                        $erreur = true;
-                                        continue;
-                                    }
-                                    
-                                }
-                                if ($this->recupType($nom) == 'motdepasse' && !empty($_POST[$nom]))
-                                        $this->definirValeur($nom, sha1($_POST[$nom]));
-                                else if ($this->recupType($nom) == 'fichier')
-                                {
-                                        $typeFichier = pathinfo($_FILES[$nom]['name'], \PATHINFO_EXTENSION);
-                                        if (!in_array($typeFichier, $valeur['extensions']))
-                                        {
-                                                $listeExtensions = '';
-                                                foreach ($valeur['extensions'] as $e)
-                                                {
-                                                        if ($listeExtensions != '')
-                                                                $listeExtensions .= '/';
-                                                        $listeExtensions .= $e;
-                                                }
-                                                $this->definirErreur($nom, 'Le fichier doit être de type ' . $listeExtensions . '.');
-                                                $erreur = true;
-                                        }
-                                        else
-                                                $this->definirValeur($nom, $_FILES[$nom]);
-                                }
-                                else if ($this->recupType($nom) == 'booleen')
-                                {
-                                  if (isset($_POST[$nom]) && $_POST[$nom] == 'on'){
-                                    $this->definirValeur($nom, true);
-                                  }
-                                  else $this->definirValeur($nom, false);
-                                }
-                                else
-                                        $this->definirValeur($nom, $_POST[$nom]);
+				if ($this->estRequis($nom)){
+					
+					if ($this->recupType($nom) == 'fichier' && empty($_FILES[$nom])){
+						$this->definirErreur($nom, 'Le champ « ' . $this->recupLibelle($nom) . ' » est requis.');
+						$erreur = true;
+						continue;
+					}
+					else if ($this->recupType($nom) == 'booleen' && $_POST[$nom] != 'on'){
+						$this->definirErreur($nom, 'Veuillez cocher la case.');
+						$erreur = true;
+						continue;
+					}					
+				}
+				if ($this->recupType($nom) == 'motdepasse' && !empty($_POST[$nom]))
+						$this->definirValeur($nom, sha1($_POST[$nom]));
+				else if ($this->recupType($nom) == 'fichier' && isset($_FILES[$nom]) && $_FILES[$nom]['tmp_name'] != "")
+				{
+					$typeFichier = pathinfo($_FILES[$nom]['name'], \PATHINFO_EXTENSION);
+					if (!in_array($typeFichier, $valeur['extensions']))
+					{
+						$listeExtensions = '';
+						foreach ($valeur['extensions'] as $e)
+						{
+							if ($listeExtensions != '')
+									$listeExtensions .= '/';
+							$listeExtensions .= $e;
+						}
+						$this->definirErreur($nom, 'Le fichier doit être de type ' . $listeExtensions . '.');
+						$erreur = true;
+					}
+					else
+						$this->definirValeur($nom, $_FILES[$nom]);
+				}		
+				else if ($this->recupType($nom) == 'fichier'){
+					$this->definirValeur($nom, null);
+				}				
+				else if ($this->recupType($nom) == 'booleen')
+				{
+				  if (isset($_POST[$nom]) && $_POST[$nom] == 'on'){
+					$this->definirValeur($nom, true);
+				  }
+				  else $this->definirValeur($nom, false);
+				}
+				else
+					$this->definirValeur($nom, $_POST[$nom]);
 			}
 			return !$erreur;
 		}

@@ -17,7 +17,7 @@ namespace App\Modeles
 			return $motifs;
 		}
                 
-                public function recup($nom)
+		public function recup($nom)
 		{
 			$req = $this->BDD->prepare("SELECT * FROM motifs WHERE libelle_motifs = ?");
 			$req->execute([$nom]);
@@ -26,7 +26,7 @@ namespace App\Modeles
 			return $motif;
 		}
                 
-                public function ajouter($nom)
+		public function ajouter($nom)
 		{
 			$req = $this->BDD->prepare("INSERT INTO motifs VALUES (null, ?)");
 			$req->execute([$nom]);

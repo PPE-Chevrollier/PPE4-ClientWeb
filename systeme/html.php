@@ -34,7 +34,8 @@ namespace Systeme
 		
 		public function caseACocher($nom)
 		{
-			echo '<input type="checkbox" id="' . $nom . '" name="' . $nom . '" /><label class="libelleAligne" for="' . $nom . '">' . $this->validateur->recupLibelle($nom) . '</label>';
+			$check = ($this->validateur->recupValeur($nom)) ? "checked" : "";
+			echo '<input type="checkbox" id="' . $nom . '" name="' . $nom . '" ' . $check . ' /><label class="libelleAligne" for="' . $nom . '">' . $this->validateur->recupLibelle($nom) . '</label>';
 		}
 		
 		public function champ($nom)

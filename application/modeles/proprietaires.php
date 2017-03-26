@@ -27,12 +27,12 @@ namespace App\Modeles
 			return $proprietaire;
 		}
                 
-                public function recherche($term){
-                 	$req = $this->BDD->prepare("SELECT * FROM vue_proprietaires WHERE nom_proprietaires LIKE ? OR prenom_proprietaires LIKE ?");
+		public function recherche($term){
+			$req = $this->BDD->prepare("SELECT * FROM vue_proprietaires WHERE nom_proprietaires LIKE ? OR prenom_proprietaires LIKE ?");
 			$req->execute([$term.'%', $term.'%']);
 			$proprietaire = $req->fetchAll(\PDO::FETCH_OBJ);
 			$req->closeCursor();
 			return $proprietaire;
-                }
+		}
 	}
 }

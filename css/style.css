@@ -38,20 +38,14 @@ footer {
 	padding: 15px;
 	text-align: center;
 }
-#nouveauLogement {
-	background-color: rgb(100, 100, 255);
-	color: white;
-	display: table;
-	margin-left: auto;
-	margin-right: 0;
-	padding: 5px 15px;
-	text-decoration: none;
+main ul {
+	margin-left: 20px;
 }
-#modifierProfil {
+.buttonDroit {
 	background-color: rgb(100, 100, 255);
 	color: white;
 	display: table;
-  margin-top: 10px;
+	margin: 0 0 5px auto;
 	padding: 5px 15px;
 	text-decoration: none;
 }
@@ -86,4 +80,28 @@ input[type=submit] {
 }
 .libelleAligne {
 	display: inline-block;
+}
+#listeLogements {
+	list-style: none;
+}
+#listeLogements li {
+	margin-bottom: 5px;
+}
+#listeLogements img {
+	vertical-align: middle;
+}
+#listeLogements a {
+	display: inline-block;
+	text-decoration: none;
+}
+#listeLogements a span {
+	display: inline-block;
+	margin: 0 15px 0 15px;
+}
+.voteInferieur {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-image: url("/images/etoile1.png")
+	border: 0;
 }
