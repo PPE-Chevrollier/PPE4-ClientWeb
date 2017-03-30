@@ -4,7 +4,7 @@
 	padding: 0;
 }
 main {
-	margin: 30px 30%;
+	margin: 30px 17%;
 }
 nav ul {
 	list-style: none;
@@ -82,10 +82,10 @@ input[type=submit] {
 	display: inline-block;
 }
 #listeLogements {
-	list-style: none;
-}
-#listeLogements li {
-	margin-bottom: 5px;
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	margin-top: 30px;
 }
 #listeLogements img {
 	vertical-align: middle;
@@ -98,10 +98,32 @@ input[type=submit] {
 	display: inline-block;
 	margin: 0 15px 0 15px;
 }
+#listeLogements td {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+#listeLogements th {
+	font-weight: bold;
+	padding-bottom: 20px;
+}
+.LigneLogement:hover {
+	background: grey;
+	cursor: pointer;
+}
 .voteInferieur {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	background-image: url("/images/etoile1.png")
 	border: 0;
+}
+#Recherche label, #Recherche input {
+	display: inline;
+	margin-left: 30px;
+	margin-right: 10px;
+	width: 8%;
+}
+#Recherche{
+	margin-top: 40px;
+	margin-bottom: 20px;
 }

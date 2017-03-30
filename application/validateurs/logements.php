@@ -59,7 +59,10 @@ namespace App\Validateurs
 		
 		public function chercher()
 		{
-			$this->ajouterChamp(['nom' => 'ville_logements', 'type' => 'nombre', 'libelle' => 'Ville']);
+			$this->ajouterChamp(['nom' => 'ville_logements', 'requis' => false, 'type' => 'nombre', 'libelle' => 'Ville']);
+			$this->ajouterChamp(['nom' => 'type_logements', 'requis' => false, 'type' => 'nombre', 'libelle' => 'Type']);
+			$this->ajouterChamp(['nom' => 'surface_logements', 'requis' => false, 'type' => 'nombre', 'libelle' => 'Surface min']);
+			$this->ajouterChamp(['nom' => 'prix_logements', 'requis' => false, 'type' => 'nombre', 'libelle' => 'Prix max']);
 			return $this->estValide();
 		}
 	}

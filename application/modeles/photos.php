@@ -17,7 +17,7 @@ namespace App\Modeles
 		
 		public function droitSurPhoto($idPhoto, $idEtudiant)
 		{
-			$req = $this->BDD->prepare("SELECT i.id_photos id_photos, l.id_logements id_logements, p.id_etudiants id_etudiants FROM illustrer i INNER JOIN logements l ON (i.id_logements = l.id_logements) INNER JOIN propositions p ON (l.id_logements = p.id_logements) WHERE i.id_photos = ? AND p.id_etudiants = ?");
+			$req = $this->BDD->prepare("SELECT i.id_photos id_photos, l.id_logements id_logements, l.id_photos photo_logements, p.id_etudiants id_etudiants FROM illustrer i INNER JOIN logements l ON (i.id_logements = l.id_logements) INNER JOIN propositions p ON (l.id_logements = p.id_logements) WHERE i.id_photos = ? AND p.id_etudiants = ?");
 			$req->execute([$idPhoto, $idEtudiant]);
 			$droit = $req->fetchObject();
 			$req->closeCursor();

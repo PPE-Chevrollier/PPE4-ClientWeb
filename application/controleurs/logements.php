@@ -11,13 +11,27 @@ namespace App\Controleurs
 			$this->chargerValidateur('logements');
 			if ($this->validateurLogements->chercher())
 			{
+				$tab = null;
 				$idVille = $this->validateurLogements->recupValeur('ville_logements');
-				$logements = $this->logements->recupParVille($idVille);
+				$idTypeLogement = $this->validateurLogements->recupValeur('type_logements');
+				$idSurface = $this->validateurLogements->recupValeur('surface_logements');
+				$idPrix = $this->validateurLogements->recupValeur('prix_logements');
+				if ($idVille) $tab['ville_logements'] = ['valeur' => $idVille, 'signe' => "="];
+				if ($idTypeLogement) $tab['type_logements'] = ['valeur' => $idTypeLogement, 'signe' => "="];
+				if ($idSurface != 0) $tab['surface_logements'] = ['valeur' => $idSurface, 'signe' => ">"];
+				if ($idPrix != 0) $tab['prix_logements'] = ['valeur' => $idPrix, 'signe' => "<"];
+				
+				$logements = $this->logements->recupParRecherche($tab);
 				$villes = $this->villes->recupToutes();
-				$villes2 = [];
+				$villes2 = ['0' => '---'];
 				foreach ($villes as $v)
 					$villes2[$v->id_villes] = $v->nom_villes;
-				$this->chargerVue('index', ['estConnecte' => $this->serviceConnexionSimple->recupPersonne() != null, 'logements' => $logements, 'titre' => 'Résultats de recherche', 'villes' => $villes2]);
+				$this->chargerVue('index', [
+					'estConnecte' => $this->serviceConnexionSimple->recupPersonne() != null,
+					'logements' => $logements,
+					'titre' => 'Résultats de recherche',
+					'villes' => $villes2
+				]);
 			}
 		}
 		
@@ -48,14 +62,34 @@ namespace App\Controleurs
 			$this->validateurLogements->chercher();
 			$logements = $this->logements->recupTous();
 			$villes = $this->villes->recupToutes();
-			$villes2 = [];
+			$villes2 = ['0' => '---'];
 			foreach ($villes as $v)
 				$villes2[$v->id_villes] = $v->nom_villes;
-				$this->chargerVue('', [
+			$this->chargerVue('', [
 				'estConnecte' => $this->serviceConnexionSimple->recupPersonne() != null,
 				'logements' => $logements,
 				'titre' => 'Liste des logements',
-				'villes' => $villes2]);
+				'villes' => $villes2
+			]);
+		}
+		
+		public function miens()
+		{
+			$this->chargerService('connexion');
+			$this->chargerModele('logements');
+			$this->chargerModele('villes');
+			$this->chargerValidateur('logements');
+			$this->validateurLogements->chercher();
+			$villes = $this->villes->recupToutes();
+			$villes2 = ['0' => '---'];
+			foreach ($villes as $v)
+				$villes2[$v->id_villes] = $v->nom_villes;
+			$logements = $this->logements->recupParEtudiant($this->session->recup('id_etudiants'));
+			$this->chargerVue('index', [
+				'estConnecte' => $this->serviceConnexion->recupPersonne() != null,
+				'logements' => $logements, 'titre' => 'Mes logements',
+				'titre' => 'Mes logements'
+			]);
 		}
 		
 		public function nouveau()
@@ -131,6 +165,26 @@ namespace App\Controleurs
 				}
 			}
 		}
+		
+		public function supprimer($params){
+			$this->chargerService('connexion');
+			$this->chargerModele('logements');
+			$id = (sizeof($params) == 1) ? $params[0] : 0;
+			$logement = $this->logements->recupParId($id);
+			if ($logement == null)
+				$this->chargerVue('introuvable', ['titre' => 'Logement introuvable']);
+			else
+			{
+				$droit = $this->logements->droitSurLogement($id, $this->session->recup('id_etudiants'));
+				if (!$droit)
+					$this->chargerVue('interdit', ['titre' => 'Opération interdite']);
+				else
+				{
+					$this->logements->supprimer($logement->id_logements);
+					$this->rediriger('logements');
+				}
+			}
+		}
 
 		public function voir($params)
 		{
@@ -154,6 +208,7 @@ namespace App\Controleurs
 					'cp' => $logement->cp_logements,
 					'descriptionPhoto' => $logement->description_photos,
 					'equipements' => $this->equipements->recupParLogement($id),
+					'idEtudiant' => $logement->id_etudiants,
 					'idPhoto' => $logement->id_photos,
 					'meuble' => $logement->meuble_studios,
 					'nbAvis' => $logement->nb_avis,
@@ -173,7 +228,7 @@ namespace App\Controleurs
 					'sexeProprietaire' => $logement->sexe_proprietaires,
 					'surface' => $logement->surface_logements,
 					'titre' => 'Consultation d\'un logement',
-					'type' => $logement->type,
+					'type' => $logement->type_logements,
 					'ville' => $logement->nom_villes,
 					'idEtudiants' => $logement->id_etudiants,
 					'idLogement' => $logement->id_logements]);
@@ -182,6 +237,34 @@ namespace App\Controleurs
 				$this->chargerVue('introuvable', ['titre' => 'Logement introuvable']);
 		}
 		
+		public function voter($params)
+		{
+			$this->chargerService('connexion');
+			$this->chargerModele('avis');
+			$this->chargerModele('logements');
+			$this->chargerValidateur('logements');
+			$idLogement = (sizeof($params) == 1) ? $params[0] : 0;
+			$logement = $this->logements->recupParId($idLogement);
+			if ($logement == null)
+			{
+				$this->chargerVue('introuvable', ['titre' => 'Logement introuvable']);
+				return;
+			}
+			else if ($logement->id_etudiants == $this->session->recup('id_etudiants') || $this->avis->aVote($idLogement, $this->session->recup('id_etudiants')))
+			{
+				$this->chargerVue('vote-interdit', ['titre' => 'Vote interdit']);
+				return;
+			}
+			else if ($this->validateurLogements->voter())
+			{
+				$vote = $this->validateurLogements->recupValeur('vote');
+				if (!$vote)
+					$vote = 0;
+				$this->avis->voter($idLogement, $this->session->recup('id_etudiants'), $vote);
+			}
+			$this->rediriger('logements', 'voir', [$idLogement]);
+		}
+
 		public function modifier($params){
 			$this->chargerService('connexion');
 			$this->chargerModele('logements');
@@ -253,7 +336,7 @@ namespace App\Controleurs
 				$this->validateurLogements->definirValeur('prix_logements', $logement->prix_logements);
 				$this->validateurLogements->definirValeur('surface_logements', $logement->surface_logements);
 				$this->validateurLogements->definirValeur('description_photos', $logement->description_photos);
-				$this->validateurLogements->definirValeur('type_logements', $logement->type);
+				$this->validateurLogements->definirValeur('type_logements', $logement->type_logements);
 				$this->validateurLogements->definirValeur('nb_chambres_appartements', $logement->nb_chambres_appartements);
 				$this->validateurLogements->definirValeur('nb_places_appartements', $logement->nb_places_appartements);
 				$this->validateurLogements->definirValeur('parties_communes_chambres', $logement->parties_communes_chambre);

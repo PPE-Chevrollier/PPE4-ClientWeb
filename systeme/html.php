@@ -75,6 +75,25 @@ namespace Systeme
 				echo '<div class="erreur">' . $erreur . '</div>';
 		}
 		
+		public function champCache($nom)
+		{
+			echo '<input type="hidden" name="' . $nom . '" id="' . $nom . '" value="' . $this->validateur->recupValeur($nom) . '" ';
+			if ($this->validateur->estRequis($nom))
+				echo 'required ';
+			echo '/>';
+		}
+		
+		public function champMultiLigne($nom)
+		{
+			echo '<label for="' . $nom . '">' . $this->validateur->recupLibelle($nom);
+			if ($this->validateur->estRequis($nom))
+				echo '*';
+			echo ' :</label><textarea name="' . $nom . '" id="' . $nom . '">' . $this->validateur->recupValeur($nom) . '</textarea>';
+			$erreur = $this->validateur->recupErreur($nom);
+			if ($erreur)
+				echo '<div class="erreur">' . $erreur . '</div>';
+		}
+		
 		public function fermerFormulaire()
 		{
 			if (!is_null($this->validateur))

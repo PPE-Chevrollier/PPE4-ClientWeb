@@ -53,11 +53,19 @@ if (sizeof($photos) > 1)
 	echo '<p>Aucun avis pour le moment.</p>';
 else
 	echo '<p>Noté ' . number_format($noteMoyenne, 1, ',', ' ') . '/5 par ' . $nbAvis . ' étudiant(s).</p>';
-if (!$aVote)
+if (!$aVote && $idEtudiant != $this->session->recup('id_etudiants'))
 {
 	$html->ouvrirFormulaire('logements', '/logements/voter/' . $idLogement);
-	for ($i = 0; $i < 5; $i++)
-		echo '<input type="radio" class="voteInferieur" name="vote" id="vote_' . $i . '" value="' . $i . '" />';
+	$html->champCache('vote');
+	for ($i = 1; $i <= 5; $i++)
+	{
+		echo '<img src="/images/etoile';
+		if ($i < $noteMoyenne)
+			echo '2';
+		else
+			echo '1';
+		echo '.png" alt="' . $i . '/5"></img>';
+	}
 	$html->boutonEnvoyer('Voter');
 	$html->fermerFormulaire();
 }

@@ -120,5 +120,4 @@ $( document ).ready(function() {
 		else if (val == 'type_logements_3')
 			$("#studio").show();
 	}
-	
 });

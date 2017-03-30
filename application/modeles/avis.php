@@ -17,7 +17,7 @@ namespace App\Modeles
 			return $vote != null;
 		}
 		
-		public function voter($idEtudiant, $idLogement, $note)
+		public function voter($idLogement, $idEtudiant, $note)
 		{
 			$req = $this->BDD->prepare("INSERT INTO commentaires VALUES (?, ?, CURDATE(), ?)");
 			$req->execute([$idLogement, $idEtudiant, $note]);

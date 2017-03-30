@@ -8,7 +8,7 @@ namespace App\Services
 		public function __construct($routeur, $session)
 		{
 			parent::__construct($routeur, $session);
-			$this->modeles = ['personnes'];
+			$this->modeles = ['messages', 'personnes'];
 		}
 
 		public function recupPersonne()
@@ -19,7 +19,10 @@ namespace App\Services
 		public function traiter()
 		{
 			if ($this->session->recup('id_etudiants'))
+			{
 				$this->personne = $this->personnes->recupParID($this->session->recup('id_etudiants'));
+				$this->session->definir('nb_messages', $this->messages->nbNonLus($this->personne->id_etudiants));
+			}
 		}
 	}
 }

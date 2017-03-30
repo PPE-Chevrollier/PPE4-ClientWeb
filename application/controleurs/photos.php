@@ -28,6 +28,28 @@ namespace App\Controleurs
 				$this->chargerVue('interdit', ['titre' => 'Opération interdite']);
 		}
 		
+		public function changer($params)
+		{
+			$this->chargerService('connexion');
+			$this->chargerModele('logements');
+			$this->chargerModele('photos');
+			$idPhoto = (sizeof($params) == 1) ? $params[0] : 0;
+			$photo = $this->photos->recupParId($idPhoto);
+			if ($photo == null)
+				$this->chargerVue('introuvable', ['titre' => 'Logement introuvable']);
+			else
+			{
+				$droit = $this->photos->droitSorPhoto($idPhoto, $this->session->recup('id_etudiants'));
+				if ($droit == null)
+					$this->chargerVue('interdit', ['titre' => 'Opération interdite']);
+				else
+				{
+					$this->logements->changerPhoto($droit->id_logements, $idPhoto);
+					$this->rediriger('logements', 'photos', [$droit->id_logements]);
+				}
+			}
+		}
+		
 		public function modifier($params)
 		{
 			$this->chargerService('connexion');
@@ -51,7 +73,7 @@ namespace App\Controleurs
 					else
 					{
 						$this->validateurPhotos->definirValeur('description_photos', $photo->description_photos);
-						$this->chargerVue('', ['descriptionPhoto' => $photo->description_photos, 'extensionPhoto' => $photo->extension_photos, 'idPhoto' => $photo->id_photos, 'titre' => 'Modifier la photo']);
+						$this->chargerVue('', ['descriptionPhoto' => $photo->description_photos, 'extensionPhoto' => $photo->extension_photos, 'idPhoto' => $photo->id_photos, 'photoLogement' => $droit->photo_logements, 'titre' => 'Modifier la photo']);
 					}
 				}
 			}
@@ -62,12 +84,13 @@ namespace App\Controleurs
 			$this->chargerService('connexion');
 			$this->chargerModele('logements');
 			$this->chargerModele('photos');
-			$photo = $this->photos->recupParId($params[0]);
+			$id = (sizeof($params) == 1) ? $params[0] : 0;
+			$photo = $this->photos->recupParId($id);
 			if ($photo == null)
 				$this->chargerVue('introuvable', ['titre' => 'Photo introuvable']);
 			else
 			{
-				$droit = $this->photos->droitSurPhoto($params[0], $this->session->recup('id_etudiants'));
+				$droit = $this->photos->droitSurPhoto($id, $this->session->recup('id_etudiants'));
 				$photos = $this->photos->recupParLogement($droit->id_logements);
 				if ($droit == null)
 					$this->chargerVue('interdit', ['titre' => 'Opération interdite']);
@@ -85,7 +108,7 @@ namespace App\Controleurs
 					}
 					$this->photos->supprimer($photo->id_photos);
 					unlink('images/photos/' . $photo->id_photos . '.' . $photo->extension_photos);
-					//$this->rediriger('logements', 'photos', [$droit->id_logements]);
+					$this->rediriger('logements', 'photos', [$droit->id_logements]);
 				}
 			}
 		}

@@ -79,6 +79,15 @@ namespace App\Modeles
 			$req->execute([$idLogement, $idEtudiant, $note]);
 		}
 		
+		public function recupParEtudiant($idEtudiant)
+		{
+			$req = $this->BDD->prepare("SELECT * FROM vue_logements WHERE id_etudiants = ?");
+			$req->execute([$idEtudiant]);
+			$logements = $req->fetchAll(\PDO::FETCH_OBJ);
+			$req->closeCursor();
+			return $logements;
+		}
+		
 		public function recupParId($id)
 		{
 			$req = $this->BDD->prepare("SELECT * FROM vue_logements WHERE id_logements = ?");
@@ -88,10 +97,24 @@ namespace App\Modeles
 			return $logement;
 		}
 		
-		public function recupParVille($idVille)
+		public function recupParRecherche($tab = null)
 		{
-			$req = $this->BDD->prepare("SELECT * FROM vue_logements WHERE ville_logements = ?");
-			$req->execute([$idVille]);
+			$s = "";
+			$tabExec = null;
+			if ($tab){
+				$s = " WHERE ";
+				$count = count($tab);
+				$cpt = 0;
+				foreach ($tab as $key => $value){
+					$cpt++;
+					$s .= $key . " ".$value['signe']." :".$key;					
+					if ($count != $cpt) $s .= " AND ";
+					$tabExec[$key] = $value['valeur'];
+				}
+			}
+
+			$req = $this->BDD->prepare("SELECT * FROM vue_logements" . $s);
+			$req->execute($tabExec);
 			$logements = $req->fetchAll(\PDO::FETCH_OBJ);
 			$req->closeCursor();
 			return $logements;
@@ -112,8 +135,13 @@ namespace App\Modeles
 		}
 		
 		public function supprimerSousTypes($idLogements){
-			$req1 = $this->BDD->prepare("CALL supprimerSousTypes(?)");
-			$req1->execute([$idLogements]);
+			$req = $this->BDD->prepare("CALL supprimerSousTypes(?)");
+			$req->execute([$idLogements]);
+		}
+		
+		public function supprimer($idLogement){
+			$req = $this->BDD->prepare("DELETE FROM logements WHERE id_logements = ?");
+			$req->execute([$idLogement]);
 		}
 	}
 }
