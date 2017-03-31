@@ -2,23 +2,23 @@
 <a class="buttonDroit" href="/messagerie/nouveau">Nouveau message</a>
 <?php if (sizeof($messages) > 0)
 {
-	echo '<ul>';
+	echo '<table><thead><th><td>Sujet</td><td>Expéditeur</td><td>Date</td></th></thead><tbody>';
 	foreach ($messages as $m)
 	{
-		echo '<li>';
+		echo '<tr>';
 		if (!$m->lu_messages)
 			echo '<strong>';
-		echo $m->sujet_messages . '<br />De : ';
+		echo '<td>' . $m->sujet_messages . '</td><td>';
 		if ($m->sexe_personnes == 'M')
 			echo 'M.';
 		else
 			echo 'Mme.';
-		echo ' ' . $m->prenom_personnes . ' ' . $m->nom_personnes;
+		echo ' ' . $m->prenom_personnes . ' ' . $m->nom_personnes . '</td><td>' . date('d/m/Y', strtotime($m->date_messages)) . '</td>';
 		if (!$m->lu_messages)
 			echo '</strong>';
-		echo '</li>';
+		echo '</tr>';
 	}
-	echo '</ul>';
+	echo '</tbody></table>';
 }
 else
 	echo '<p>Aucun message.</p>';

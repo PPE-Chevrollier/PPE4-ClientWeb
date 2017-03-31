@@ -46,7 +46,7 @@ $( document ).ready(function() {
         select: function (event, ui) {
             $("#nom_proprietaire").val(tabProprio[ui.item.indice].nom_proprietaires);
             $("#prenom_proprietaire").val(tabProprio[ui.item.indice].prenom_proprietaires);
-            $("#sexe_proprietaire").val(tabProprio[ui.item.indice].sexe_proprietaires)
+            $("#sexe_proprietaire").val(tabProprio[ui.item.indice].sexe_proprietaires);
             $("#rue_logements").focus();
             event.preventDefault();
         }
@@ -82,7 +82,7 @@ $( document ).ready(function() {
         select: function (event, ui) {
             $("#nom_proprietaire").val(tabProprio[ui.item.indice].nom_proprietaires);
             $("#prenom_proprietaire").val(tabProprio[ui.item.indice].prenom_proprietaires);
-            $("#sexe_proprietaire").val(tabProprio[ui.item.indice].sexe_proprietaires)
+            $("#sexe_proprietaire").val(tabProprio[ui.item.indice].sexe_proprietaires);
             $("#rue_logements").focus();
             event.preventDefault();
         }

@@ -29,7 +29,7 @@ namespace App\Controleurs
 				$this->chargerVue('index', [
 					'estConnecte' => $this->serviceConnexionSimple->recupPersonne() != null,
 					'logements' => $logements,
-					'titre' => 'RÃ©sultats de recherche',
+					'titre' => 'Résultats de recherche',
 					'villes' => $villes2
 				]);
 			}
@@ -45,11 +45,11 @@ namespace App\Controleurs
 			if ($logement == null)
 				$this->chargerVue('introuvable', ['titre' => 'Logement introuvable']);
 			else if ($logement->id_etudiants != $this->session->recup('id_etudiants'))
-				$this->chargerVue('interdit', ['titre' => 'OpÃ©ration interdite']);
+				$this->chargerVue('interdit', ['titre' => 'Opération interdite']);
 			else
 			{
 				$equipements = $this->equipements->recupParLogement($idLogement);
-				$this->chargerVue('equipements', ['equipements' => $equipements, 'idLogement' => $idLogement, 'titre' => 'GÃ©rer les Ã©quipements']);
+				$this->chargerVue('equipements', ['equipements' => $equipements, 'idLogement' => $idLogement, 'titre' => 'Gérer les équipements']);
 			}
 		}
 		
@@ -157,11 +157,11 @@ namespace App\Controleurs
 			else
 			{
 				if ($logement->id_etudiants != $this->session->recup('id_etudiants'))
-					$this->chargerVue('interdit', ['titre' => 'OpÃ©ration interdite']);
+					$this->chargerVue('interdit', ['titre' => 'Opération interdite']);
 				else
 				{
 					$photos = $this->photos->recupParLogement($logement->id_logements);
-					$this->chargerVue('', ['idLogement' => $logement->id_logements, 'photos' => $photos, 'titre' => 'GÃ©rer les photos']);
+					$this->chargerVue('', ['idLogement' => $logement->id_logements, 'photos' => $photos, 'titre' => 'Gérer les photos']);
 				}
 			}
 		}
@@ -177,7 +177,7 @@ namespace App\Controleurs
 			{
 				$droit = $this->logements->droitSurLogement($id, $this->session->recup('id_etudiants'));
 				if (!$droit)
-					$this->chargerVue('interdit', ['titre' => 'OpÃ©ration interdite']);
+					$this->chargerVue('interdit', ['titre' => 'Opération interdite']);
 				else
 				{
 					$this->logements->supprimer($logement->id_logements);
@@ -185,7 +185,7 @@ namespace App\Controleurs
 				}
 			}
 		}
-
+		
 		public function voir($params)
 		{
 			$this->chargerModele('avis');
@@ -224,6 +224,7 @@ namespace App\Controleurs
 					'prenomProprietaire' => $logement->prenom_proprietaires,
 					'prix' => $logement->prix_logements,
 					'rue' => $logement->rue_logements,
+					'scripts' => ['voter'],
 					'sexeEtudiant' => $logement->sexe_etudiants,
 					'sexeProprietaire' => $logement->sexe_proprietaires,
 					'surface' => $logement->surface_logements,
@@ -264,7 +265,6 @@ namespace App\Controleurs
 			}
 			$this->rediriger('logements', 'voir', [$idLogement]);
 		}
-
 		public function modifier($params){
 			$this->chargerService('connexion');
 			$this->chargerModele('logements');
@@ -275,7 +275,7 @@ namespace App\Controleurs
 			$this->chargerValidateur('logements');
 			$id = (sizeof($params) == 1) ? $params[0] : 0;			
 			if (!$this->logements->droitSurLogement($id, $this->session->recup('id_etudiants')))
-				$this->chargerVue('interdit', ['titre' => 'OprÃ©ation interdite']);
+				$this->chargerVue('interdit', ['titre' => 'Opréation interdite']);
       else {      
   			$logement = $this->logements->recupParId($id);
   			if($this->validateurLogements->modifier()){

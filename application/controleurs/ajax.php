@@ -13,6 +13,16 @@ namespace App\Controleurs
 			echo json_encode($tabEquipements);
 		}
 		
+		public function recupEtudiants($params)
+		{
+			$this->chargerModele('personnes');
+			$etudiants = $this->personnes->recherche($params[0]);
+			$tabEtudiants = [];
+			foreach ($etudiants as $e)
+				array_push($tabEtudiants, ['nom' => $e->nom_etudiants, 'nomUtilisateur' => $e->login_etudiants, 'prenom' => $e->prenom_etudiants, 'sexe' => $e->sexe_etudiants]);
+			echo json_encode($tabEtudiants);
+		}
+		
 		public function recupVilles($params)
 		{
 			$this->chargerModele('villes');

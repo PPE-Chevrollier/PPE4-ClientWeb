@@ -19,6 +19,16 @@ namespace App\Modeles {
             $reqPersonnes->execute([$nom, $prenom, $sexe, $id]);
             $reqEtudiants->execute([$mail, $tel, $id]);
         }
+		
+		public function recherche($terme)
+		{
+			$terme .= '%';
+			$req = $this->BDD->prepare("SELECT * FROM vue_etudiants WHERE login_etudiants LIKE ? OR nom_etudiants LIKE ? OR prenom_etudiants LIKE ?");
+			$req->execute([$terme, $terme, $terme]);
+			$etudiants = $req->fetchAll(\PDO::FETCH_OBJ);
+			$req->closeCursor();
+			return $etudiants;
+		}
 
         public function recupParNomUtilisateur($nomUtilisateur) {
             $req = $this->BDD->prepare('SELECT * FROM vue_etudiants WHERE login_etudiants = ?');
@@ -45,7 +55,7 @@ namespace App\Modeles {
         }
 
         public function apiCconnexion($user, $mdp) {
-            $req = $this->BDD->prepare('SELECT login(?, ?) AS \'result\'');
+            $req = $this->BDD->prepare('SELECT connexion(?, ?) AS \'result\'');
             $req->execute([$user, $mdp]);
             $result = $req->fetchObject();
             $req->closeCursor();

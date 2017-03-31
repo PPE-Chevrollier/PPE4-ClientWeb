@@ -8,6 +8,7 @@ namespace Systeme
 		public function __construct($config)
 		{
 			$this->connexion = new \PDO('mysql:host=' . $config->recup('hote') . ';dbname=' . $config->recup('nomBDD'), $config->recup('nomUtilisateur'), $config->recup('mdpBDD'));
+			$this->connexion->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
 			$this->connexion->exec("SET CHARACTER SET utf8");
 		}
 	

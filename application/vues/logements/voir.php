@@ -1,6 +1,8 @@
 <h1>Consultation du logement</h1><?php
 if ($idEtudiants == $this->session->recup('id_etudiants'))
 	echo '<a class="buttonDroit" href="/logements/modifier/' . $idLogement . '">Modifier le logement</a>';
+else
+	echo '<a href="/messagerie/nouveau/' . $idEtudiants . '">Contacter</a>';
 ?>
 <p><?php echo '<img src="/images/photos/' . $photo . '" alt="' . $descriptionPhoto . '" width="150" height="150"></img>'; ?><br />
 Type : <?php if ($type == 1) echo 'Appartement'; else if ($type == 2) echo 'Chambre chez l\'habitant'; else echo 'Studio'; ?><br />
@@ -59,12 +61,7 @@ if (!$aVote && $idEtudiant != $this->session->recup('id_etudiants'))
 	$html->champCache('vote');
 	for ($i = 1; $i <= 5; $i++)
 	{
-		echo '<img src="/images/etoile';
-		if ($i < $noteMoyenne)
-			echo '2';
-		else
-			echo '1';
-		echo '.png" alt="' . $i . '/5"></img>';
+		echo '<img class="vote" id="vote_' . $i . '" src="/images/etoile1.png" alt="' . $i . '/5"></img>';
 	}
 	$html->boutonEnvoyer('Voter');
 	$html->fermerFormulaire();

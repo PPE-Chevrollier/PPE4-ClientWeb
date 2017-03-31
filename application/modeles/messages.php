@@ -10,7 +10,7 @@ namespace App\Modeles
 		
 		public function ecrire($idAuteur, $idDestinataire, $sujet, $texte)
 		{
-			$req = $this->BDD->prepare("INSERT INTO messages VALUES (NULL, ?, ?, CURDATE(), ?, 0, ?");
+			$req = $this->BDD->prepare("INSERT INTO messages VALUES (NULL, ?, ?, CURDATE(), ?, 0, ?)");
 			$req->execute([$idAuteur, $idDestinataire, $texte, $sujet]);
 			return $this->BDD->lastInsertId();
 		}
@@ -23,7 +23,7 @@ namespace App\Modeles
 		
 		public function nbNonLus($idEtudiant)
 		{
-			$req = $this->BDD->prepare("SELECT COUNT(*) nb FROM messages GROUP BY destinataire_messages HAVING destinataire_messages = ?");
+			$req = $this->BDD->prepare("SELECT COUNT(*) nb, lu_messages FROM messages GROUP BY destinataire_messages HAVING destinataire_messages = ? AND lu_messages = 0");
 			$req->execute([$idEtudiant]);
 			$nb = $req->fetchObject();
 			$req->closeCursor();
@@ -32,7 +32,7 @@ namespace App\Modeles
 		
 		public function recupParEtudiant($idEtudiant)
 		{
-			$req = $this->BDD->prepare("SELECT m.id_messages, p.nom_personnes, p.prenom_personnes, p.sexe_personnes, m.date_messages, m.texte_messages, m.lu_messages FROM messages m INNER JOIN personnes p ON (m.auteur_messages = p.id_personnes) WHERE destinataire_messages = ?");
+			$req = $this->BDD->prepare("SELECT m.id_messages, p.nom_personnes, p.prenom_personnes, p.sexe_personnes, m.date_messages, m.sujet_messages, m.texte_messages, m.lu_messages FROM messages m INNER JOIN personnes p ON (m.auteur_messages = p.id_personnes) WHERE destinataire_messages = ?");
 			$req->execute([$idEtudiant]);
 			$messages = $req->fetchAll(\PDO::FETCH_OBJ);
 			$req->closeCursor();
@@ -41,11 +41,17 @@ namespace App\Modeles
 		
 		public function recupParId($id)
 		{
-			$req = $this->BDD->prepare("SELECT * FROM messages WHERE id_messages = ?");
+			$req = $this->BDD->prepare("SELECT m.id_messages, m.auteur_messages, m.destinataire_messages, p.nom_personnes, p.prenom_personnes, p.sexe_personnes, m.date_messages, m.sujet_messages, m.texte_messages FROM messages m INNER JOIN personnes p ON (m.auteur_messages = p.id_personnes) WHERE m.id_messages = ?");
 			$req->execute([$id]);
 			$message = $req->fetchObject();
 			$req->closeCursor();
 			return $message;
+		}
+		
+		public function supprimer($id)
+		{
+			$req = $this->BDD->prepare("DELETE FROM messages WHERE id_messages = ?");
+			$req->execute([$id]);
 		}
 	}
 }

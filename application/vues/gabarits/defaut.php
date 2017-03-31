@@ -13,11 +13,11 @@
 			</ul></nav>
 			<div id="utilisateur"><?php if ($session->recup('id_etudiants'))
 			{
-				echo 'Bonjour ' . $session->recup('prenom_etudiants') . ' !<a href="/messagerie">Messagerie';
+				echo 'Bonjour ' . $session->recup('prenom_etudiants') . ' !<div id="sousMenu"><a href="/messagerie">Messagerie';
 				$nbMessages = $session->recup('nb_messages');
-				if ($nbMessages > 0)
-					echo ' (' . $nbMessages . ')';
-				echo '</a><a href="/profil/voir/' . $session->recup('login_etudiants') . '">Mon profil</a><a href="/logements/miens">Mes logements</a><a href="/connexion/deconnexion">Déconnexion</a>';
+				if ($nbMessages)
+					echo ' (' . $nbMessages->nb . ')';
+				echo '</a><a href="/profil/voir/' . $session->recup('login_etudiants') . '">Mon profil</a><a href="/logements/miens">Mes logements</a><a href="/connexion/deconnexion">Déconnexion</a></div>';
 			}
 			else echo '<a href="/connexion">Connexion</a>'; ?></div>
 		</header>
