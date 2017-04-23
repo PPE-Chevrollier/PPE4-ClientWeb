@@ -19,13 +19,18 @@ nav ul li a {
 	text-decoration: none;
 }
 #utilisateur {
+	margin-top: 20px;
 	position: absolute;
 	right: 0;
 	top: 0;
+	width: 175px;
+}
+#utilisateur p {
+	margin-bottom: 20px;
 }
 #utilisateur a {
-	display: inline-block;
-	margin: 20px;
+	display: block;
+	margin-bottom: 20px;
 	text-decoration: none;
 }
 #sousMenu {

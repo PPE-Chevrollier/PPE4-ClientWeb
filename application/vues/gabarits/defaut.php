@@ -13,7 +13,7 @@
 			</ul></nav>
 			<div id="utilisateur"><?php if ($session->recup('id_etudiants'))
 			{
-				echo 'Bonjour ' . $session->recup('prenom_etudiants') . ' !<div id="sousMenu"><a href="/messagerie">Messagerie';
+				echo '<p>Bonjour ' . $session->recup('prenom_etudiants') . ' ! 🡣</p><div id="sousMenu"><a href="/messagerie">Messagerie';
 				$nbMessages = $session->recup('nb_messages');
 				if ($nbMessages)
 					echo ' (' . $nbMessages->nb . ')';
