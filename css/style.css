@@ -6,6 +6,10 @@
 main {
 	margin: 30px 17%;
 }
+#logo {
+	margin-left: -60px;
+	position: absolute;
+}
 nav ul {
 	list-style: none;
 	text-align: center;

@@ -2,10 +2,10 @@
 <a class="buttonDroit" href="/messagerie/nouveau">Nouveau message</a>
 <?php if (sizeof($messages) > 0)
 {
-	echo '<table><thead><th><td>Sujet</td><td>Expéditeur</td><td>Date</td></th></thead><tbody>';
+	echo '<table id="listeLogements"><tr><th>Sujet</th><th>Expéditeur</th><th>Date</th></tr>';
 	foreach ($messages as $m)
 	{
-		echo '<tr>';
+		echo '<tr class="LigneLogement" onclick="document.location = \'/messagerie/lire/' . $m->id_messages . '\'">';
 		if (!$m->lu_messages)
 			echo '<strong>';
 		echo '<td>' . $m->sujet_messages . '</td><td>';
