@@ -79,6 +79,14 @@ namespace App\Modeles
 			$req->execute([$idLogement, $idEtudiant, $note]);
 		}
 		
+		public function recup5Derniers()
+		{
+			$req = $this->BDD->query("SELECT * FROM vue_logements ORDER BY id_logements DESC LIMIT 5");
+			$logements = $req->fetchAll(\PDO::FETCH_OBJ);
+			$req->closeCursor();
+			return $logements;
+		}
+		
 		public function recupParEtudiant($idEtudiant)
 		{
 			$req = $this->BDD->prepare("SELECT * FROM vue_logements WHERE id_etudiants = ?");

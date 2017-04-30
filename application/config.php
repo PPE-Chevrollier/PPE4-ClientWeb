@@ -6,10 +6,10 @@ namespace App
 		public function __construct()
 		{
 			parent::__construct();
-			$this->definir('hote', '192.168.152.2');
+			$this->definir('hote', 'localhost');
 			$this->definir('nomBDD', 'bd_ppe');
-			$this->definir('nomUtilisateur', 'ppe');
-			$this->definir('mdpBDD', 'Azerty123');
+			$this->definir('nomUtilisateur', 'chevloc');
+			$this->definir('mdpBDD', 'chevloc123');
 		}
 	}
 }

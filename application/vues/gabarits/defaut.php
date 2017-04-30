@@ -14,10 +14,10 @@
 			<div id="utilisateur"><?php if ($session->recup('id_etudiants'))
 			{
 				$nbMessages = $session->recup('nb_messages');
-				echo '<p>Bonjour ' . $session->recup('prenom_etudiants') . ' ! ';
+				echo '<a href="#" onclick="$(this).parent().children(1).show();">Bonjour ' . $session->recup('prenom_etudiants') . ' ! ';
 				if ($nbMessages)
 					echo '(' . $nbMessages->nb . ') ';
-				echo '🡣</p><div id="sousMenu"><a href="/messagerie">Messagerie';
+				echo '&blacktriangledown;</a><div id="sousMenu"><a href="/messagerie">Messagerie';
 				if ($nbMessages)
 					echo ' (' . $nbMessages->nb . ')';
 				echo '</a><a href="/profil/voir/' . $session->recup('login_etudiants') . '">Mon profil</a><a href="/logements/miens">Mes logements</a><a href="/connexion/deconnexion">Déconnexion</a></div>';

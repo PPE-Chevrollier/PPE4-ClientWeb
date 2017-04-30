@@ -5,7 +5,9 @@ namespace App\Controleurs
 	{
 		public function index()
 		{
-			$this->chargerVue('');
+			$this->chargerModele('logements');
+			$logements = $this->logements->recup5Derniers();
+			$this->chargerVue('', ['logements' => $logements]);
 		}
 	}
 }
