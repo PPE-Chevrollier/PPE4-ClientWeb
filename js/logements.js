@@ -4,7 +4,7 @@ $( document ).ready(function() {
     $("#ville_logements").autocomplete({
         source: function (request, response) {
             $.ajax({
-                url: "http://192.168.152.1/ajax/recupVilles/"+request.term,
+                url: "/ajax/recupVilles/"+request.term,
                 dataType: 'json',
                 success: function (data) {
                     response(data);
@@ -19,7 +19,7 @@ $( document ).ready(function() {
     $("#nom_proprietaire").autocomplete({
         source: function (request, response) {
             $.ajax({
-                url: "http://192.168.152.1/ajax/recupProprietaires/"+request.term,
+                url: "/ajax/recupProprietaires/"+request.term,
                 dataType: 'json',
                 success: function (data) {
                     tabProprio = data;
@@ -55,7 +55,7 @@ $( document ).ready(function() {
     $("#prenom_proprietaire").autocomplete({
         source: function (request, response) {
             $.ajax({
-                url: "http://192.168.152.1/ajax/recupProprietaires/"+request.term,
+                url: "/ajax/recupProprietaires/"+request.term,
                 dataType: 'json',
                 success: function (data) {
                     tabProprio = data;
@@ -91,7 +91,7 @@ $( document ).ready(function() {
     $("#libelle_motifs").autocomplete({
         source: function (request, response) {
             $.ajax({
-                url: "http://192.168.152.1/ajax/recupMotifs/"+request.term,
+                url: "/ajax/recupMotifs/"+request.term,
                 dataType: 'json',
                 success: function (data) {
                     response(data);

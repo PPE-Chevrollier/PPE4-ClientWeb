@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<title><?php if (isset($titre)) echo $titre . ' | '; ?>ChevLoc</title>
 		<link rel="stylesheet" href="/css/style.css" />
-                <link rel="stylesheet" href="/css/jquery-ui.css">
+		<link rel="stylesheet" href="/css/jquery-ui.css">
 	</head>
 	<body>
 		<header>
@@ -29,12 +29,11 @@
 		</main>
 		<footer>&copy; 2017 - PPE Chevrollier<br />Tous droits réservés.</footer>
 		<script src="/js/jquery-3.1.1.min.js"></script>
-                <script src="/js/jquery-ui.js"></script>
+		<script src="/js/jquery-ui.js"></script>
 		<?php if (isset($scripts))
 		{
 			foreach ($scripts as $s)
 				echo '<script src="/js/' . $s . '.js"></script>';
-		}
-		?>
+		} ?>
 	</body>
 </html>

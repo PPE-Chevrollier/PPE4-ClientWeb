@@ -88,7 +88,7 @@ namespace Systeme
 			echo '<label for="' . $nom . '">' . $this->validateur->recupLibelle($nom);
 			if ($this->validateur->estRequis($nom))
 				echo '*';
-			echo ' :</label><textarea name="' . $nom . '" id="' . $nom . '">' . $this->validateur->recupValeur($nom) . '</textarea>';
+			echo ' :</label><textarea name="' . $nom . '" id="' . $nom . '" rows="10" cols="50">' . $this->validateur->recupValeur($nom) . '</textarea>';
 			$erreur = $this->validateur->recupErreur($nom);
 			if ($erreur)
 				echo '<div class="erreur">' . $erreur . '</div>';

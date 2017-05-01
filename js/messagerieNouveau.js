@@ -5,7 +5,7 @@ $(document).ready(function()
 	$("#destinataire_messages").autocomplete({
 		source: function (request, response) {
 			$.ajax({
-				url: "http://192.168.152.1/ajax/recup-etudiants/" + request.term,
+				url: "/ajax/recup-etudiants/" + request.term,
 				dataType: 'json',
 				success: function(data) {
 					tabEtu = data;
